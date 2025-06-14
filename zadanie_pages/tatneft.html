@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Задание — Краеведческий музей</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: url('https://pplx-res.cloudinary.com/image/private/user_uploads/65929436/812f5363-a63b-4923-a4e2-52c20ab89de1/Group-9.jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+    }
+    .task-box {
+      background: rgba(255,255,255,0.92);
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+      padding: 32px 24px 24px 24px;
+      max-width: 400px;
+      margin: 60px auto 0 auto;
+      text-align: center;
+    }
+    .task-box h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .task-box p {
+      font-size: 1.06rem;
+      margin-bottom: 16px;
+    }
+    #drawingCanvas {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background: #fff;
+      touch-action: none; /* отключаем скролл при рисовании на тач */
+      width: 100%;
+      height: 250px;
+      display: block;
+      margin: 16px 0 12px 0;
+    }
+    .btn-hint {
+      background: none;
+      border: none;
+      color: #8D6E63;
+      font-size: 1.1rem;
+      text-decoration: underline;
+      margin-bottom: 18px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .btn-hint:hover {
+      color: #6D4C41;
+    }
+    .btn-done {
+      background-color: #8D6E63;
+      color: #fff;
+      font-size: 1.25rem;
+      border-radius: 10px;
+      padding: 14px 0;
+      width: 100%;
+      border: none;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    .btn-done:hover {
+      background-color: #6D4C41;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="task-box">
+      <h1>Задание</h1>
+      <p>
+        Творческая минутка :)
+        Нарисуйте то, что запомнилось Вам из квеста больше всего, используя поле ниже.<br>
+        Сфотографируйте результат и прикрепите фото на сайте.
+      </p>
+      <canvas id="drawingCanvas"></canvas>
+      <button id="clearBtn" class="btn btn-outline-secondary w-100 mb-3">Очистить рисунок</button>
+      <!-- <a href="../podskazka/kraeved.html" class="btn-hint">Взять подсказку</a>
+      <p style="font-size:small; color: gray;">Просмотр подсказки отнимет у Вас 5 баллов</p> -->
+      <a href="../index.html" class="btn btn-done">Я все!!</a>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('drawingCanvas');
+      const ctx = canvas.getContext('2d');
+      let drawing = false;
+      let lastX = 0;
+      let lastY = 0;
+
+      // Установка размеров canvas с учётом devicePixelRatio для чёткости
+      function resizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * window.devicePixelRatio;
+        canvas.height = rect.height * window.devicePixelRatio;
+        ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#8D6E63';
+      }
+      resizeCanvas();
+      window.addEventListener('resize', () => {
+        // сохраняем рисунок при ресайзе не реализовано, можно добавить при необходимости
+        resizeCanvas();
+      });
+
+      function startPosition(e) {
+        drawing = true;
+        [lastX, lastY] = getXY(e);
+      }
+      function endPosition() {
+        drawing = false;
+      }
+      function draw(e) {
+        if (!drawing) return;
+        const [x, y] = getXY(e);
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        [lastX, lastY] = [x, y];
+      }
+      function getXY(e) {
+        if (e.touches && e.touches.length > 0) {
+          const touch = e.touches[0];
+          return [touch.clientX - canvas.getBoundingClientRect().left, touch.clientY - canvas.getBoundingClientRect().top];
+        } else {
+          return [e.clientX - canvas.getBoundingClientRect().left, e.clientY - canvas.getBoundingClientRect().top];
+        }
+      }
+
+      // События мыши
+      canvas.addEventListener('mousedown', startPosition);
+      canvas.addEventListener('mouseup', endPosition);
+      canvas.addEventListener('mouseout', endPosition);
+      canvas.addEventListener('mousemove', draw);
+
+      // События касания
+      canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startPosition(e); });
+      canvas.addEventListener('touchend', (e) => { e.preventDefault(); endPosition(e); });
+      canvas.addEventListener('touchcancel', (e) => { e.preventDefault(); endPosition(e); });
+      canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e); });
+
+      // Кнопка очистки
+      document.getElementById('clearBtn').addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+    })();
+  </script>
+</body>
+</html>

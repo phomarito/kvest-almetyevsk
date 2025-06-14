@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Задание — Солнечные часы</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: url('https://pplx-res.cloudinary.com/image/private/user_uploads/65929436/812f5363-a63b-4923-a4e2-52c20ab89de1/Group-9.jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    .task-box {
+      background: rgba(255,255,255,0.92);
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+      padding: 32px 24px 24px 24px;
+      max-width: 400px;
+      margin: 40px auto 60px auto;
+      text-align: center;
+    }
+    .task-box h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .task-box p {
+      font-size: 1.06rem;
+      margin-bottom: 16px;
+    }
+    .answer-area {
+      width: 100%;
+      height: 60px;
+      margin: 16px 0 12px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      resize: none;
+      font-size: 1.1rem;
+      padding: 10px;
+      background: #fff;
+    }
+    .btn-hint {
+      background: none;
+      border: none;
+      color: #8D6E63;
+      font-size: 1.1rem;
+      text-decoration: underline;
+      margin-bottom: 18px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .btn-hint:hover {
+      color: #6D4C41;
+    }
+    .btn-done {
+      background-color: #8D6E63;
+      color: #fff;
+      font-size: 1.25rem;
+      border-radius: 10px;
+      padding: 14px 0;
+      width: 100%;
+      border: none;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    .btn-done:hover {
+      background-color: #6D4C41;
+    }
+
+    /* Поиск отличий */
+    .image-container {
+      position: relative;
+      max-width: 400px;
+      margin: 30px auto 20px auto;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      user-select: none;
+    }
+    .image-container img {
+      width: 100%;
+      display: block;
+      border-radius: 16px;
+    }
+    .highlight {
+      position: absolute;
+      border: 3px solid #4CAF50;
+      border-radius: 50%;
+      pointer-events: none;
+      box-shadow: 0 0 15px 5px rgba(76,175,80,0.4);
+      animation: pulse 1.5s infinite;
+      transition: opacity 0.3s ease;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .info-text {
+      max-width: 400px;
+      margin: 0 auto 10px auto;
+      color: #333;
+      font-size: 1rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="task-box">
+      <h1>Задание</h1>
+      
+
+      <!-- Блок с картинкой и поиском отличий -->
+      <div class="info-text">Найдите 5 отличий на изображении и нажмите на них</div>
+      <div class="image-container" id="image-container">
+        <!-- Замените src на вашу картинку -->
+        <img src="https://агту-вшн.рф/upload/iblock/bf8/4qkkgzlvqtkxx4b4oa7ujk0idoyfxv8h.webp" alt="Локация для поиска отличий" />
+      </div>
+
+      <!-- <textarea class="answer-area" placeholder="Ответ:"></textarea> -->
+      <br />
+      <a href="../podskazka/vshn.html" class="btn-hint">Взять подсказку</a>
+      <p style="font-size:small; color: gray;">Просмотр подсказки отнимет у Вас 5 баллов</p>
+      <br />
+      <a href="../index.html" class="btn btn-done">Я все!!</a>
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('image-container');
+
+    // Координаты отличий в процентах (x, y) и радиус клика в пикселях
+    const differences = [
+      {x: 20, y: 30, radius: 20, found: false},
+      {x: 55, y: 70, radius: 20, found: false},
+      {x: 75, y: 25, radius: 20, found: false},
+      {x: 40, y: 60, radius: 20, found: false},
+      {x: 65, y: 45, radius: 20, found: false}
+    ];
+
+    function createHighlight(x, y, radius) {
+      const highlight = document.createElement('div');
+      highlight.classList.add('highlight');
+      highlight.style.width = radius * 2 + 'px';
+      highlight.style.height = radius * 2 + 'px';
+      highlight.style.left = `calc(${x}% - ${radius}px)`;
+      highlight.style.top = `calc(${y}% - ${radius}px)`;
+      return highlight;
+    }
+
+    container.addEventListener('click', (e) => {
+      const rect = container.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+
+      differences.forEach(diff => {
+        if (!diff.found) {
+          const diffX = (diff.x / 100) * rect.width;
+          const diffY = (diff.y / 100) * rect.height;
+          const distance = Math.sqrt(
+            Math.pow(clickX - diffX, 2) +
+            Math.pow(clickY - diffY, 2)
+          );
+
+          if (distance <= diff.radius) {
+            diff.found = true;
+            container.appendChild(createHighlight(diff.x, diff.y, diff.radius));
+
+            // Можно добавить уведомление или звук
+            if (differences.every(d => d.found)) {
+              alert('Поздравляем! Все отличия найдены.');
+            }
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

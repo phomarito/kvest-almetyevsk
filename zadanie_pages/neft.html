@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Интерактивная карта памятника нефти</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      margin: 0; padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+    .container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      max-width: 700px;
+      width: 100%;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .map-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto 20px auto;
+    }
+    img {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+    }
+    /* Зоны - прозрачные кнопки поверх изображения */
+    .zone {
+      position: absolute;
+      cursor: pointer;
+      border-radius: 8px;
+      background-color: rgba(255, 165, 0, 0.3);
+    }
+    .zone:hover {
+      background-color: rgba(255, 165, 0, 0.3);
+    }
+    /* Примерные позиции зон, подкорректируйте под ваше изображение */
+    #zone1 { top: 20%; left: 45%; width: 10%; height: 15%; }
+    #zone2 { top: 40%; left: 40%; width: 15%; height: 20%; }
+    #zone3 { top: 65%; left: 50%; width: 10%; height: 15%; }
+    #zone4 { top: 85%; left: 45%; width: 15%; height: 10%; }
+
+    .question-box {
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .question-text {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: #222;
+    }
+    .answers {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .answers li {
+      margin-bottom: 10px;
+    }
+    .answers button {
+      width: 100%;
+      padding: 10px 15px;
+      font-size: 1rem;
+      border: 2px solid #8D6E63;
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .answers button:hover:not(:disabled) {
+      background-color: #8D6E63;
+      color: white;
+    }
+    .answers button:disabled {
+      cursor: default;
+      opacity: 0.6;
+    }
+    .feedback {
+      margin-top: 15px;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .feedback.correct {
+      color: #4CAF50;
+    }
+    .feedback.wrong {
+      color: #f44336;
+    }
+    .next-btn {
+      margin-top: 20px;
+      background-color: #8D6E63;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: none;
+      transition: background-color 0.3s;
+    }
+    .next-btn:hover {
+      background-color: #6D4C41;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Интерактивная карта памятника нефти в Альметьевске</h1>
+    <p>Нажмите на каждый элемент и ответьте на вопрос</p>
+    <div class="map-wrapper">
+      <img style="height: 400px;" src="https://nashural.ru/assets/uploads/3VpEEFltSK0.jpg" alt="Памятник нефти в Альметьевске" />
+      <div id="zone1" class="zone" title="Струи памятника"></div>
+      <div id="zone2" class="zone" title="Гранитная площадка"></div>
+      <div id="zone3" class="zone" title="Высота памятника"></div>
+      <div id="zone4" class="zone" title="Годы добычи нефти"></div>
+    </div>
+
+    <div class="question-box" id="questionBox" style="display:none;">
+      <div class="question-text" id="questionText"></div>
+      <ul class="answers" id="answersList"></ul>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="nextBtn">Следующий вопрос</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        zoneId: 'zone1',
+        question: 'Сколько струй символизируют памятник нефти?',
+        answers: [
+          { text: '10', correct: false },
+          { text: '12', correct: true },
+          { text: '15', correct: false },
+          { text: '8', correct: false }
+        ]
+      },
+      {
+        zoneId: 'zone2',
+        question: 'Из какого материала выполнена площадка памятника?',
+        answers: [
+          { text: 'Гранит', correct: true },
+          { text: 'Мрамор', correct: false },
+          { text: 'Бетон', correct: false },
+          { text: 'Песчаник', correct: false }
+        ]
+      },
+      {
+        zoneId: 'zone3',
+        question: 'Какова высота памятника нефти в Альметьевске?',
+        answers: [
+          { text: '27 метров', correct: true },
+          { text: '30 метров', correct: false },
+          { text: '20 метров', correct: false },
+          { text: '25 метров', correct: false }
+        ]
+      },
+      {
+        zoneId: 'zone4',
+        question: 'В каком году был установлен памятник нефти?',
+        answers: [
+          { text: '2007', correct: true },
+          { text: '1981', correct: false },
+          { text: '1971', correct: false },
+          { text: '2010', correct: false }
+        ]
+      }
+    ];
+
+    const questionBox = document.getElementById('questionBox');
+    const questionText = document.getElementById('questionText');
+    const answersList = document.getElementById('answersList');
+    const feedback = document.getElementById('feedback');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let currentQuestionIndex = null;
+    let answeredZones = new Set();
+
+    // Показать вопрос по индексу
+    function showQuestion(index) {
+      currentQuestionIndex = index;
+      const q = questions[index];
+      questionText.textContent = q.question;
+      feedback.textContent = '';
+      nextBtn.style.display = 'none';
+      answersList.innerHTML = '';
+      q.answers.forEach((ans, i) => {
+        const li = document.createElement('li');
+        const btn = document.createElement('button');
+        btn.textContent = ans.text;
+        btn.type = 'button';
+        btn.disabled = false;
+        btn.addEventListener('click', () => {
+          selectAnswer(i);
+        });
+        li.appendChild(btn);
+        answersList.appendChild(li);
+      });
+      questionBox.style.display = 'block';
+    }
+
+    // Обработка выбора ответа
+    function selectAnswer(answerIndex) {
+      const q = questions[currentQuestionIndex];
+      const buttons = answersList.querySelectorAll('button');
+      buttons.forEach(btn => btn.disabled = true);
+
+      const selected = q.answers[answerIndex];
+      if (selected.correct) {
+        feedback.textContent = 'Правильно!';
+        feedback.className = 'feedback correct';
+        answeredZones.add(q.zoneId);
+        highlightZone(q.zoneId, true);
+      } else {
+        feedback.textContent = 'Неправильно, попробуйте ещё раз.';
+        feedback.className = 'feedback wrong';
+        highlightZone(q.zoneId, false);
+      }
+      nextBtn.style.display = 'inline-block';
+    }
+
+    // Подсветка зоны: зеленая если правильно, красная если нет
+    function highlightZone(zoneId, correct) {
+      const zone = document.getElementById(zoneId);
+      if (!zone) return;
+      zone.style.backgroundColor = correct ? 'rgba(76,175,80,0.4)' : 'rgba(244,67,54,0.4)';
+      setTimeout(() => {
+        zone.style.backgroundColor = '';
+      }, 1500);
+    }
+
+    // Переход к следующему вопросу
+    nextBtn.addEventListener('click', () => {
+      questionBox.style.display = 'none';
+      currentQuestionIndex = null;
+    });
+
+    // Обработчик клика по зоне
+    questions.forEach((q, i) => {
+      const zone = document.getElementById(q.zoneId);
+      if (!zone) return;
+      zone.addEventListener('click', () => {
+        if (answeredZones.has(q.zoneId)) {
+          alert('Вы уже ответили на этот вопрос.');
+          return;
+        }
+        showQuestion(i);
+      });
+    });
+  </script>
+</body>
+</html>

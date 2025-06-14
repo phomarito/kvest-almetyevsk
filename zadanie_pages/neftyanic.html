@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Задание — Солнечные часы</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: url('https://pplx-res.cloudinary.com/image/private/user_uploads/65929436/812f5363-a63b-4923-a4e2-52c20ab89de1/Group-9.jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+    }
+    .task-box {
+      background: rgba(255,255,255,0.92);
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+      padding: 32px 24px 24px 24px;
+      max-width: 400px;
+      margin: 60px auto 0 auto;
+      text-align: center;
+    }
+    .task-box h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .task-box p {
+      font-size: 1.06rem;
+      margin-bottom: 16px;
+    }
+    .answer-area {
+      width: 100%;
+      height: 60px;
+      margin: 16px 0 12px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      resize: none;
+      font-size: 1.1rem;
+      padding: 10px;
+      background: #fff;
+    }
+    .btn-hint {
+      background: none;
+      border: none;
+      color: #8D6E63;
+      font-size: 1.1rem;
+      text-decoration: underline;
+      margin-bottom: 18px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .btn-hint:hover {
+      color: #6D4C41;
+    }
+    .btn-done {
+      background-color: #8D6E63;
+      color: #fff;
+      font-size: 1.25rem;
+      border-radius: 10px;
+      padding: 14px 0;
+      width: 100%;
+      border: none;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    .btn-done:hover {
+      background-color: #6D4C41;
+    }
+
+    /* Пазлы */
+    .puzzle-container {
+      margin: 20px auto 30px auto;
+      max-width: 400px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      user-select: none;
+    }
+    .puzzle-piece {
+      background: #d9c6b8;
+      border-radius: 8px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      cursor: grab;
+      border: 2px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .puzzle-piece.dragging {
+      opacity: 0.6;
+      cursor: grabbing;
+      border-color: #8D6E63;
+      box-shadow: 0 0 8px #8D6E63;
+    }
+    .puzzle-piece.correct {
+      background: #a3c293;
+      border-color: #4a7c2b;
+      cursor: default;
+    }
+
+    /* Место для картинки */
+    .image-placeholder {
+      max-width: 400px;
+      height: 200px;
+      margin: 20px auto;
+      border: 2px dashed #8D6E63;
+      border-radius: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #8D6E63;
+      font-size: 1.1rem;
+      font-style: italic;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="task-box">
+      <h1>Задание</h1>
+      <p>Соберите пазл, меняя картинки местами</p>
+
+      <!-- Пазлы -->
+      <div class="puzzle-container" id="puzzle">
+        <div class="puzzle-piece" draggable="true" data-index="2"><img src="../img/puzzle3.jpg" alt=""></div>
+        <div class="puzzle-piece" draggable="true" data-index="0"><img src="../img/puzzle1.jpg" alt=""></div>
+        <div class="puzzle-piece" draggable="true" data-index="1"><img src="../img/puzzle2.jpg" alt=""></div>
+        <div class="puzzle-piece" draggable="true" data-index="5"><img src="../img/puzzle6.jpg" alt=""></div>
+        <div class="puzzle-piece" draggable="true" data-index="3"><img src="../img/puzzle4.jpg" alt=""></div>
+        <div class="puzzle-piece" draggable="true" data-index="4"><img src="../img/puzzle5.jpg" alt=""></div>
+        <div class="puzzle-piece" draggable="true" data-index="7"><img src="../img/puzzle8.jpg" alt=""></div>
+        <div class="puzzle-piece" draggable="true" data-index="6"><img src="../img/puzzle7.jpg" alt=""></div>
+        <div class="puzzle-piece" draggable="true" data-index="8"><img src="../img/puzzle9.jpg" alt=""></div>
+      </div>
+
+      <!-- Место для картинки -->
+      <!-- <div class="image-placeholder">
+        <img src="" alt="">
+      </div> -->
+
+      <!-- <textarea class="answer-area" placeholder="Ответ:"></textarea> -->
+     <br />
+      <a href="../index.html" class="btn btn-done">Я все!!</a>
+    </div>
+  </div>
+
+  <script>
+    const puzzle = document.getElementById('puzzle');
+    let dragSrcEl = null;
+
+    function handleDragStart(e) {
+      dragSrcEl = this;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/html', this.outerHTML);
+      this.classList.add('dragging');
+    }
+
+    function handleDragOver(e) {
+      if (e.preventDefault) e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      return false;
+    }
+
+    function handleDragEnter() {
+      this.classList.add('over');
+    }
+
+    function handleDragLeave() {
+      this.classList.remove('over');
+    }
+
+    function handleDrop(e) {
+      if (e.stopPropagation) e.stopPropagation();
+
+      if (dragSrcEl !== this) {
+        // Swap elements
+        const dragHTML = e.dataTransfer.getData('text/html');
+        this.outerHTML = dragHTML;
+        dragSrcEl.outerHTML = this.outerHTML;
+
+        addDnDHandlers(puzzle.querySelectorAll('.puzzle-piece'));
+        checkOrder();
+      }
+      return false;
+    }
+
+    function handleDragEnd() {
+      this.classList.remove('dragging');
+      puzzle.querySelectorAll('.puzzle-piece').forEach(piece => piece.classList.remove('over'));
+    }
+
+    function addDnDHandlers(elements) {
+      elements.forEach(el => {
+        el.addEventListener('dragstart', handleDragStart);
+        el.addEventListener('dragenter', handleDragEnter);
+        el.addEventListener('dragover', handleDragOver);
+        el.addEventListener('dragleave', handleDragLeave);
+        el.addEventListener('drop', handleDrop);
+        el.addEventListener('dragend', handleDragEnd);
+      });
+    }
+
+    function checkOrder() {
+      const pieces = puzzle.querySelectorAll('.puzzle-piece');
+      let correctCount = 0;
+      pieces.forEach((piece, i) => {
+        if (parseInt(piece.dataset.index) === i) {
+          piece.classList.add('correct');
+          correctCount++;
+        } else {
+          piece.classList.remove('correct');
+        }
+      });
+      if (correctCount === pieces.length) {
+        
+      }
+    }
+
+    // Инициализация
+    addDnDHandlers(puzzle.querySelectorAll('.puzzle-piece'));
+  </script>
+</body>
+</html>

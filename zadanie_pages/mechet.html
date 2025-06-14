@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Тест по мечети имени Р.Г. Галеева</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: url('https://pplx-res.cloudinary.com/image/private/user_uploads/65929436/812f5363-a63b-4923-a4e2-52c20ab89de1/Group-9.jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+    }
+    .task-box {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.09);
+      padding: 32px 24px 24px 24px;
+      max-width: 600px;
+      margin: 60px auto 60px auto;
+      text-align: left;
+    }
+    .task-box h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .question-block {
+      margin-bottom: 20px;
+    }
+    .question-block p {
+      font-size: 1.06rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .form-check {
+      margin-bottom: 5px;
+    }
+    .form-check-input {
+      margin-right: 10px;
+    }
+    .btn-done {
+      background-color: #8d6e63;
+      color: #fff;
+      font-size: 1.25rem;
+      border-radius: 10px;
+      padding: 14px 0;
+      width: 100%;
+      border: none;
+      margin-top: 20px;
+      transition: background 0.2s;
+    }
+    .btn-done:hover {
+      background-color: #6d4c41;
+    }
+    .result-message {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 20px;
+      text-align: center;
+      color: #4a4a4a;
+    }
+    .disabled-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255,255,255,0.7);
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      color: #6d4c41;
+      border-radius: 16px;
+    }
+    .btn-hint {
+      background: none;
+      border: none;
+      color: #8D6E63;
+      font-size: 1.1rem;
+      text-decoration: underline;
+      margin-bottom: 18px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .btn-hint:hover {
+      color: #6D4C41;
+    }
+    .btn-done {
+      background-color: #8D6E63;
+      color: #fff;
+      font-size: 1.25rem;
+      border-radius: 10px;
+      padding: 14px 0;
+      width: 100%;
+      border: none;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    .btn-done:hover {
+      background-color: #6D4C41;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" style="position: relative;">
+    <div class="task-box" id="taskBox">
+      <h1>Тест по мечети имени Р.Г. Галеева</h1>
+
+      <form id="quizForm">
+        <div class="question-block">
+          <p>1. В честь кого названа мечеть в Альметьевске?</p>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="question1" id="q1a" value="a" />
+            <label class="form-check-label" for="q1a">А) В.И. Ленина</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="question1" id="q1b" value="b" />
+            <label class="form-check-label" for="q1b">Б) Рината Галеева</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="question1" id="q1c" value="c" />
+            <label class="form-check-label" for="q1c">В) И.В. Сталина</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="question1" id="q1d" value="d" />
+            <label class="form-check-label" for="q1d">Г) А.М. Закирова</label>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p>2. В каком году началось строительство мечети, что являлось редкостью для того периода?</p>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="question2" id="q2a" value="a" />
+            <label class="form-check-label" for="q2a">А) 1980</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="question2" id="q2b" value="b" />
+            <label class="form-check-label" for="q2b">Б) 1990</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="question2" id="q2c" value="c" />
+            <label class="form-check-label" for="q2c">В) 1999</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="question2" id="q2d" value="d" />
+            <label class="form-check-label" for="q2d">Г) 2000</label>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p>3. Какого цвета стал купол мечети после последней реконструкции?</p>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="question3" id="q3a" value="a" />
+            <label class="form-check-label" for="q3a">А) Золотистый</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="question3" id="q3b" value="b" />
+            <label class="form-check-label" for="q3b">Б) Медный</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="question3" id="q3c" value="c" />
+            <label class="form-check-label" for="q3c">В) Серебристый</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="question3" id="q3d" value="d" />
+            <label class="form-check-label" for="q3d">Г) Бронзовый</label>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p>4. Какова высота главного минарета мечети имени Р.Г. Галеева?</p>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="question4" id="q4a" value="a" />
+            <label class="form-check-label" for="q4a">А) 36,2 метра</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="question4" id="q4b" value="b" />
+            <label class="form-check-label" for="q4b">Б) 18 метров</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="question4" id="q4c" value="c" />
+            <label class="form-check-label" for="q4c">В) 53,5 метра</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="question4" id="q4d" value="d" />
+            <label class="form-check-label" for="q4d">Г) 75 метров</label>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-done" id="submitBtn">Ответить</button>
+      </form>
+
+      <div id="result" class="result-message"></div>
+
+      <br>
+      <a href="../podskazka/mechet.html" class="btn-hint">Взять подсказку</a>
+      <p style="font-size:small; color: gray;">Просмотр подсказки отнимет у Вас 5 баллов</p>
+      <br>
+      <a href="../index.html" class="btn btn-done">Я все!!</a>
+
+    </div>
+  </div>
+
+  <script>
+const quizKey = 'almetyevskMosqueTestPassed';
+
+function disableAllInputs() {
+  // Блокируем все радиокнопки и кнопку "Ответить"
+  document.querySelectorAll('.form-check-input').forEach(el => el.disabled = true);
+  document.getElementById('submitBtn').disabled = true;
+}
+
+function checkAnswers() {
+  const answers = {
+    question1: 'b', // Рината Галеева
+    question2: 'b', // 1990
+    question3: 'c', // Серебристый
+    question4: 'c'  // 53,5 метра
+  };
+
+  let score = 0;
+  let total = Object.keys(answers).length;
+  let form = document.getElementById('quizForm');
+  let resultDiv = document.getElementById('result');
+
+  for (let key in answers) {
+    let selected = form.elements[key];
+    let userAnswer = null;
+    for (let i = 0; i < selected.length; i++) {
+      if (selected[i].checked) {
+        userAnswer = selected[i].value;
+        break;
+      }
+    }
+    if (userAnswer === answers[key]) {
+      score++;
+    }
+  }
+
+  if (score === total) {
+    resultDiv.style.color = 'green';
+    resultDiv.textContent = `Отлично! Вы ответили правильно на все вопросы (${score} из ${total}). Тест пройден.`;
+    localStorage.setItem(quizKey, 'true');
+    disableAllInputs();
+  } else {
+    resultDiv.style.color = 'red';
+    resultDiv.textContent = `Вы ответили правильно на ${score} из ${total} вопросов. Тест можно пройти только один раз.`;
+    disableAllInputs();
+  }
+}
+
+window.onload = function () {
+  if (localStorage.getItem(quizKey) === 'true') {
+    disableAllInputs();
+    const resultDiv = document.getElementById('result');
+    resultDiv.style.color = 'green';
+    resultDiv.textContent = 'Вы уже успешно прошли этот тест ранее.';
+  }
+};
+
+document.getElementById('submitBtn').addEventListener('click', checkAnswers);
+</script>
+
+</body>
+</html>
