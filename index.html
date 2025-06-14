@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>навигация по локациям</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .image-link {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      color: white;
+      text-decoration: none;
+      height: 100%;
+    }
+    .image-link img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(50%);
+      transition: filter 0.3s ease;
+    }
+    .image-link:hover img {
+      filter: brightness(50%);
+    }
+    .image-title {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.25rem;
+      pointer-events: none;
+      user-select: none;
+    }
+    .row.g-0 > [class*="col-"] {
+      padding-left: 0;
+      padding-right: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid p-0 m-0">
+    <div class="row g-0">
+      <!-- 10 картинок -->
+      <div class="col-6">
+        <a href="./index_pages/suntime.html" class="image-link">
+          <img src="https://fototerra.ru/photo/Russia/Al-met-evsk/medium-297470.jpg" alt="Солнечные часы" />
+          <div class="image-title">Солнечные часы</div>
+        </a>
+      </div>
+      <div class="col-6">
+        <a href="./index_pages/tatneft.html" class="image-link">
+          <img src="https://static.tildacdn.com/tild6437-3437-4735-a364-646530663061/1200px--____.jpg" alt="Татнефть" />
+          <div class="image-title">Татнефть</div>
+        </a>
+      </div>
+      <div class="col-6">
+        <a href="./index_pages/lenina.html" class="image-link">
+          <img src="https://img-fotki.yandex.ru/get/373511/3995672.15a/0_10897c_ee2c17e1_XXL.jpg" alt="Площадь Ленина" />
+          <div class="image-title">Площадь Ленина</div>
+        </a>
+      </div>
+      <div class="col-6">
+        <a href="./index_pages/vshn.html" class="image-link">
+          <img src="https://агту-вшн.рф/upload/iblock/bf8/4qkkgzlvqtkxx4b4oa7ujk0idoyfxv8h.webp" alt="Высшая школа нефти" />
+          <div class="image-title">Высшая школа нефти</div>
+        </a>
+      </div>
+      <div class="col-6">
+        <a href="./index_pages/tukai.html" class="image-link">
+          <img src="https://tatarstan.ru/file/news/601_n2181869_big.jpg" alt="В этом удивительном лесу" />
+          <div class="image-title">"В этом удивительном лесу"</div>
+        </a>
+      </div>
+      <div class="col-6">
+        <a href="./index_pages/monument.html" class="image-link">
+          <img src="https://tatfrontu.ru/sites/default/files/styles/1600_1600/public/img/2023/01/20/1vechnyyogon.jpg?itok=Kt0jHFVG" alt="Мемориальный комплекс" />
+          <div class="image-title">Мемориальный комплекс</div>
+        </a>
+      </div>
+      <div class="col-6">
+        <a href="./index_pages/neftyanic.html" class="image-link">
+          <img src="https://tur-ray.ru/wp-content/uploads/2021/10/Monument-neftyanikam-pervoprohodtsam.jpg" alt="Памятник нефтяникам" />
+          <div class="image-title">Памятник нефтяникам</div>
+        </a>
+      </div>
+      <div class="col-6">
+        <a href="./index_pages/neft.html" class="image-link">
+          <img src="https://nashural.ru/assets/uploads/3VpEEFltSK0.jpg" alt="Памятник нефти" />
+          <div class="image-title">Памятник нефти</div>
+        </a>
+      </div>
+      <div class="col-6">
+        <a href="./index_pages/kraeved.html" class="image-link">
+          <img src="https://tur-ray.ru/wp-content/uploads/2021/10/Kraevedcheskiy-muzey.jpg" alt="Краеведческий музей" />
+          <div class="image-title">Краеведческий музей</div>
+        </a>
+      </div>
+      <div class="col-6">
+        <a href="./index_pages/mechet.html" class="image-link">
+          <img src="https://aif-s3.aif.ru/images/026/512/daf77daae5d2ec229be02d824c2292ca.jpg" alt="Мечеть" />
+          <div class="image-title">Мечеть</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
